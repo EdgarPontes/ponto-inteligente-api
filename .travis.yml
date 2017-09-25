@@ -7,3 +7,5 @@ install:
   - chmod +x mvnw
 script:
 - mvn test -B
+before_install:
+  - mysql -e 'CREATE DATABASE ponto_inteligente;'
