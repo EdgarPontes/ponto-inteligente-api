@@ -86,7 +86,7 @@ public class LancamentoControllerTest {
 				.andExpect(jsonPath("$.errors").value("Funcionário não encontrado. ID inexistente."))
 				.andExpect(jsonPath("$.data").isEmpty());
 	}
-	
+
 	@Test
 	@WithMockUser(username = "admin@admin.com", roles = {"ADMIN"})
 	public void testRemoverLancamento() throws Exception {
@@ -96,7 +96,7 @@ public class LancamentoControllerTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
-	
+/*
 	@Test
 	@WithMockUser
 	public void testRemoverLancamentoAcessoNegado() throws Exception {
@@ -106,7 +106,7 @@ public class LancamentoControllerTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isForbidden());
 	}
-
+*/
 	private String obterJsonRequisicaoPost() throws JsonProcessingException {
 		LancamentoDto lancamentoDto = new LancamentoDto();
 		lancamentoDto.setId(null);
