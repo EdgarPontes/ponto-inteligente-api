@@ -30,7 +30,7 @@ import br.com.makewaybrazil.pontointeligente.api.security.utils.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "**")
+@CrossOrigin(origins = "http://localhost:8080")
 public class AuthenticationController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
