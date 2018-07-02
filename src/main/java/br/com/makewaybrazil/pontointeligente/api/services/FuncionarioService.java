@@ -2,6 +2,9 @@ package br.com.makewaybrazil.pontointeligente.api.services;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import br.com.makewaybrazil.pontointeligente.api.entities.Funcionario;
 
 public interface FuncionarioService {
@@ -37,5 +40,11 @@ public interface FuncionarioService {
 	 * @return Optional<Funcionario>
 	 */
 	Optional<Funcionario> buscarPorId(Long id);
+	
+	/**
+	 * Busca todos os funcionarios
+	 * @return Optional lista de funcionarios
+	 */
+	Page<Funcionario> buscarTodosFuncionarios(PageRequest pageRequest);
 
 }

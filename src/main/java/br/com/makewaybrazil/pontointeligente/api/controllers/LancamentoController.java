@@ -63,7 +63,7 @@ public class LancamentoController {
 	 * @param funcionarioId
 	 * @return ResponseEntity<Response<LancamentoDto>>
 	 */
-	@GetMapping(value = "/funcionario/{funcionarioId}")
+	@GetMapping(value = "/lancamento/{funcionarioId}")
 	public ResponseEntity<Response<Page<LancamentoDto>>> listarPorFuncionarioId(
 			@PathVariable("funcionarioId") Long funcionarioId,
 			@RequestParam(value = "pag", defaultValue = "0") int pag,

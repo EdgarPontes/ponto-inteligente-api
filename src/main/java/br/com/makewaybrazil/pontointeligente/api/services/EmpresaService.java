@@ -1,8 +1,11 @@
 package br.com.makewaybrazil.pontointeligente.api.services;
 
-import br.com.makewaybrazil.pontointeligente.api.entities.Empresa;
-
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import br.com.makewaybrazil.pontointeligente.api.entities.Empresa;
 
 public interface EmpresaService {
 
@@ -21,5 +24,11 @@ public interface EmpresaService {
 	 * @return Empresa
 	 */
 	Empresa persistir(Empresa empresa);
+	
+	/**
+	 * Busca todas as empresas
+	 * @return Optional lista de empresas
+	 */
+	Page<Empresa> buscarTodasEmpresas(PageRequest pageRequest);
 	
 }

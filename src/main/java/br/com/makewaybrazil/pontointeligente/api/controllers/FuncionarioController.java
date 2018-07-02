@@ -9,14 +9,20 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.makewaybrazil.pontointeligente.api.dtos.FuncionarioDto;
@@ -34,6 +40,9 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioService funcionarioService;
+	
+	@Value("${paginacao.qtd_por_pagina}")
+	private int qtdPorPagina;
 
 	public FuncionarioController() {
 	}
@@ -69,6 +78,49 @@ public class FuncionarioController {
 		this.funcionarioService.persistir(funcionario.get());
 		response.setData(this.converterFuncionarioDto(funcionario.get()));
 
+		return ResponseEntity.ok(response);
+	}
+	
+	/**
+	 * Retorna a listagem de funcionários.
+	 * 
+	 * @param 
+	 * @return ResponseEntity<Response<FuncionarioDto>>
+	 */
+	@GetMapping
+	public ResponseEntity<Response<Page<FuncionarioDto>>> listarTodosfuncionarios(
+			@RequestParam(value = "pag", defaultValue = "0") int pag,
+			@RequestParam(value = "ord", defaultValue = "id") String ord,
+			@RequestParam(value = "dir", defaultValue = "ASC") String dir) {
+		log.info("Buscando funcionários página: {}", pag);
+		Response<Page<FuncionarioDto>> response = new Response<Page<FuncionarioDto>>();
+
+		PageRequest pageRequest = new PageRequest(pag, this.qtdPorPagina, Direction.valueOf(dir), ord);
+		Page<Funcionario> funcionarios = this.funcionarioService.buscarTodosFuncionarios(pageRequest);
+		Page<FuncionarioDto> funcionarioDto = funcionarios.map(funcionario -> this.converterFuncionarioDto(funcionario));
+
+		response.setData(funcionarioDto);
+		return ResponseEntity.ok(response);
+	}
+	
+	/**
+	 * Retorna uma funcionario dado um CPF.
+	 * 
+	 * @param cnpj
+	 * @return ResponseEntity<Response<FuncionarioDto>>
+	 */
+	@GetMapping(value = "/{cpf}")
+	public ResponseEntity<Response<FuncionarioDto>> buscarPorCnpj(@PathVariable("cpf") String cpf) {
+		log.info("Buscando funcionario por CPF: {}", cpf);
+		Response<FuncionarioDto> response = new Response<FuncionarioDto>();
+		Optional<Funcionario> funcionario = funcionarioService.buscarPorCpf(cpf);
+
+		if (!funcionario.isPresent()) {
+			log.info("Funcionario não encontrado para o CPF: {}", cpf);
+			response.getErrors().add("Funcionario não encontrado para o CPF " + cpf);
+			return ResponseEntity.badRequest().body(response);
+		}
+		response.setData(this.converterFuncionarioDto(funcionario.get()));
 		return ResponseEntity.ok(response);
 	}
 

@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.makewaybrazil.pontointeligente.api.entities.Funcionario;
@@ -37,6 +39,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	public Optional<Funcionario> buscarPorId(Long id) {
 		log.info("Buscando funcionário pelo IDl {}", id);
 		return Optional.ofNullable(this.funcionarioRepository.findOne(id));
+	}
+
+	@Override
+	public Page<Funcionario> buscarTodosFuncionarios(PageRequest pageRequest) {
+		log.info("Buscando todos os funcionários");
+		return this.funcionarioRepository.findAll(pageRequest) ;
 	}
 
 }
