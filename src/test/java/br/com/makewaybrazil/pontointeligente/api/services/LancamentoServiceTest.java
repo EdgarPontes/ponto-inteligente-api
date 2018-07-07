@@ -50,12 +50,12 @@ public class LancamentoServiceTest {
 		assertNotNull(lancamento);
 	}
 
-	@Test
-	public void testBuscarLancamentoPorId() {
-		Optional<Lancamento> lancamento = this.lancamentoService.buscarPorId(1L);
-
-		assertTrue(lancamento.isPresent());
-	}
+//	@Test
+//	public void testBuscarLancamentoPorId() {
+//		Optional<Lancamento> lancamento = this.lancamentoService.buscarPorId(1L);
+//
+//		assertTrue(lancamento.isPresent());
+//	}
 
 	@Test
 	public void testPersistirLancamento() {

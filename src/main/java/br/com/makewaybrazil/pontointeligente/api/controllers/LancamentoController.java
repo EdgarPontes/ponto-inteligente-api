@@ -43,7 +43,7 @@ import br.com.makewaybrazil.pontointeligente.api.services.LancamentoService;
 public class LancamentoController {
 
 	private static final Logger log = LoggerFactory.getLogger(LancamentoController.class);
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 	@Autowired
 	private LancamentoService lancamentoService;
